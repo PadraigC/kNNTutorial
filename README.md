@@ -5,4 +5,4 @@ Python notebooks for kNN Tutorial paper
 3. `kNN-Cosine`: How to use Cosine as the *k*-NN metric in `scikit-learn`. Using Cosine similarity for text classification. 
 4. `kNN-DTW`: Using the `tslearn` library for time-series classification using DTW.
 5. `kNN-Speedup`: Testing the `scikit-learn` speedup mechanisms (`kd_tree` and `ball_tree`) on four datasets. Requires the four datasets and a `py` file `kNNDataLoader.py` to run (all available in this repo). 
-6. `kNN-Annoy`: Testing the impact of using `annoy` for speedup. `annoy` provides code for Approximate Nearest Neighbour that may not be s accurate as full *k*-NN. Requires `kNNAnnoy.py` that contains some wrapper code for `annoy`. Also requires the four datasets and a `py` file `kNNDataLoader.py` to run (all available in this repo). 
+6. `kNN-Annoy`: Testing the impact of using `annoy` for speedup. `annoy` provides code for Approximate Nearest Neighbour that may not be as accurate as full *k*-NN. Requires `kNNAnnoy.py` that contains some wrapper code for `annoy`. Also requires the four datasets and a `py` file `kNNDataLoader.py` to run (all available in this repo). 
