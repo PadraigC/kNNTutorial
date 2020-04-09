@@ -4,6 +4,7 @@
 
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import pairwise_distances
@@ -102,23 +103,35 @@ class kNNCRR():
 
 class kNNCNN():
     def __init__(self):
-        self.cnn = []      
+        self.cnn = []      # The list of sample ids in the condensed set
+        self.knn =  KNeighborsClassifier(n_neighbors = 1)
         
-    def fit(self, X_train, y_train):
+    def NN_match(self,Xj,yj):
+        p = self.knn.predict([Xj])
+        if yj == p[0]:
+            return True
+        else:
+            return False
+        
+    def fit(self, X_train, y_train, m_pass = 20):
         self.cnn = [1]      
         nbr = NearestNeighbors(n_neighbors=1)
         
-        for j in range(len(y_train)):
-            Xj,yj = X_train[j],y_train[j]
-            if not NN_match(X_train[self.cnn], y_train[self.cnn], nbr,Xj,yj):
-                self.cnn.append(j)
+        Update = True
+        pas = 0
+        while (Update and pas < m_pass):
+            Update = False
+            self.knn.fit(X_train[self.cnn], y_train[self.cnn])
+            added = 0
+            for j in range(len(y_train)):
+                Xj,yj = X_train[j],y_train[j]
+                if not self.NN_match(Xj,yj):
+                    self.cnn.append(j)
+                    self.knn.fit(X_train[self.cnn], y_train[self.cnn])
+                    added += 1
+                    Update = True   # An update happened on this pass
+            pas+=1
+            print('Pass',pas, 'Added', added)
 
         return X_train[self.cnn], y_train[self.cnn]
-                                                                              
-def NN_match(X,y,nbr,Xj,yj):
-    nbr.fit(X)
-    indx = nbr.kneighbors([Xj],return_distance=False)[0][0]
-    if yj == y[indx]:
-        return True
-    else:
-        return False
+  
